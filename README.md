@@ -30,7 +30,7 @@ You can try it out here: https://re-lux-marketplace.netlify.app/
 ### Brief
 
 
-This was a joint project with my colleague Tony Rodriguez on the General Assembly Software Engineering Bootcamp. Our brief was to build a MongoDB/Express/React/Node application with full CRUD that met the following criteria: 
+This was a joint project with my colleague Tony Rodriguez (TonyRod116) on the General Assembly Software Engineering Bootcamp. Our brief was to build a MongoDB/Express/React/Node.js application with full CRUD that met the following criteria: 
 
 	•	The back-end application is built with Express and Node.
 	•	The front-end application is built with React.
@@ -42,5 +42,42 @@ This was a joint project with my colleague Tony Rodriguez on the General Assembl
 	•	The front-end application does not hold any secret keys. Public APIs that require secret keys must be accessed from the back-end application.
 	•	The project is deployed online so that the rest of the world can use it.
 
+## Getting started
 
+For the frontend, clone this repository and install the following packages for the frontend: 
+
+
+```bash
+npm install react
+```
+
+```bash
+npm install react-com
+```
+
+```bash
+npm install react-router
+```
+```bash
+npm install react-router-dom
+```
+
+```bash
+npm install react-icons
+```
+For the payment gateway:
+
+```bash
+npm install @stripe/react-stripe-js @stripe/stripe-js
+```
+
+For HTTP requests: 
+
+```bash
+npm install axios
+```
+
+```bash
+npm install serverless-http
+```
 
