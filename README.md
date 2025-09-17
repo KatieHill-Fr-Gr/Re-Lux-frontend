@@ -1,9 +1,9 @@
-# Re-Lux
+# Re-Lux - A luxury marketplace app with a sleek UI/UX design
 by Katie Hill & Tony Rodriguez
 
 ![Re-Lux Homepage](src/assets/deployed.png)
 
-*Live marketplace application showcasing luxury goods with modern UI/UX design*
+*Screenshot of dynamic homepage displaying the latest listings*
 
 
 ## Tech stack
@@ -19,16 +19,25 @@ by Katie Hill & Tony Rodriguez
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-plain-wordmark.svg"
   alt="MongoDB" width="40" height="40"/>
 
+## Timeframe
+
+Duration: 7 days
+Team: Joint project with Tony Rodriguez (TonyRod116 on GitHub)
+Contributions: Developed React frontend with full CRUD operations for items, image uploads, checkout flow with Stripe integration, and main CSS layout (following the UI/UX design created in Figma)
+
 ## About
 
 Re-Lux is a marketplace app where users can sell a wide range of second-hand luxury goods, from designer clothing to high-end tech. It works in a similar way to other marketplace apps in that users can either make an offer on an item (which can then be accepted or rejected by the seller on their profile page) or add the item straight to their bag if they are happy to pay the asking price. 
 
-You can try it out here: https://re-lux-marketplace.netlify.app/
+This was an ambitious collaborative project that involved building a dynamic resale platform with multiple features. Overall, our approach worked well and we were able to deliver a fully functional app with no bugs. However, the complexity of the app threw up numerous challenges during the build.
+
+You can view the live app here: https://re-lux-marketplace.netlify.app/
+
 
 ### Brief
 
 
-This was a joint project with my colleague Tony Rodriguez (TonyRod116 on GitHub) on the General Assembly Software Engineering Bootcamp. Our brief was to build a MongoDB/Express/React/Node.js application with full CRUD that met the following criteria: 
+This was a joint project with my colleague Tony Rodriguez on the General Assembly Software Engineering Bootcamp. Our brief was to build a MongoDB/Express/React/Node.js application with full CRUD that met the following criteria: 
 
 	•	The back-end application is built with Express and Node.
 	•	The front-end application is built with React.
@@ -122,9 +131,10 @@ The <CardElement > options and billing details have been customised, while succe
 
 
 
+
 ## Key Learnings
 
-
+This project made full use of React’s capabilities (reusable components, state management, packages etc.) and allowed me to gain a thorough understanding of React frontend development.
 
 
 ## Future Improvements
