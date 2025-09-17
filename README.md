@@ -21,9 +21,12 @@ by Katie Hill & Tony Rodriguez
 
 ## Timeframe
 
-Duration: 7 days
-Team: Joint project with Tony Rodriguez (TonyRod116 on GitHub)
-Contributions: Developed React frontend with full CRUD operations for items, image uploads, checkout flow with Stripe integration, and main CSS layout (following the UI/UX design created in Figma)
+#### Duration:
+ 7 days
+#### Team: 
+Joint project with Tony Rodriguez (TonyRod116 on GitHub)
+#### Contributions: 
+Developed React frontend with full CRUD operations for items, image uploads, checkout flow with Stripe integration, and UI/UX design
 
 ## About
 
