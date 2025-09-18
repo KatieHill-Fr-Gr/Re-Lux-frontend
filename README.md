@@ -176,24 +176,32 @@ The `<CardElement>` options and billing details have been customised, while succ
 ### Challenges
 
 
+#### 1) Image upload
+
+I refactored the image upload component to avoid losing the existing images when updating the item listing. Instead, formData is updated by appending the new image URLs to the existing image array:
+
+<img width="637" height="712" alt="Re-Lux_imgupload" src="https://github.com/user-attachments/assets/89d8907a-eaa5-4138-a21a-81e467ae5b7a" />
 
 
-#### 1) Image upload (state management)
+#### 2) Already added to cart
 
-There were issues with the image upload component / state management. 
+Since this is a resale platform and it is not possible to buy more than one item, it was necessary to prevent the user from adding the same item to their cart more than once. I added this line of code to the individual item page to check if the item had already been added (using the cart state): 
+
+<img width="634" height="89" alt="Re-Lux_itemalreadyincart" src="https://github.com/user-attachments/assets/81e495d2-7d72-45d9-ba78-a3aebd903f15" />
+
+If the item has already been added, a user message will appear and the item will not be added again.
 
 
-
-#### 2) Stripe Checkout vs Elements
+#### 3) Stripe Checkout vs Elements
 
 I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>`, and wrapping the checkout form inside `<Elements stripe={stripePromise}>` on the checkout page:
 
 <img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
 
 
-#### 3) User Authentication
+#### 4) User Authentication
 
-Although the backend configuration prevented guest users from performing CRUD operations, it was necessary to manage this on the frontend to ensure a seamless user experience. I implemented protected routes to prevent guest users from accessing pages that were only available to logged users:
+Although the backend configuration prevents guest users from performing CRUD operations, it was necessary to manage this on the frontend to ensure a seamless user experience. I implemented protected routes to redirect guest users away from pages that were only available to logged-in users:
 
 <img width="650" height="233" alt="Re-Lux_protectedroutes" src="https://github.com/user-attachments/assets/a57fad03-b8f4-4c0b-a9fa-655369cf117f" />
 
