@@ -58,7 +58,7 @@ npm install react
 ```
 
 ```bash
-npm install react-com
+npm install react-dom
 ```
 
 ```bash
@@ -71,6 +71,7 @@ npm install react-router-dom
 ```bash
 npm install react-icons
 ```
+
 For the payment gateway:
 
 ```bash
@@ -83,10 +84,6 @@ For HTTP requests:
 npm install axios
 ```
 
-```bash
-npm install serverless-http
-```
-
 ## Planning 
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" 
@@ -94,10 +91,14 @@ npm install serverless-http
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/trello/trello-plain-wordmark.svg" 
 	alt="Trello" width="80" height="60" />
 
-
+I created the UI/UX design in Figma and a Trello board to divide the tasks and plan out what we needed to achieve each day.
 
 #### UI/UX design (Figma)
 
+
+<img width="920" height="666" alt="Re-Lux_homepage_index" src="https://github.com/user-attachments/assets/45659947-cb53-42f2-a0af-8c70ae3709ac" />
+
+<img width="893" height="623" alt="Re-Lux_checkoutflow" src="https://github.com/user-attachments/assets/6d97ddbd-2975-465d-abbd-734d7f46b732" />
 
 
 
@@ -145,7 +146,7 @@ I developed individual components for the cart and a context wrapper for state m
 - Cart summary (lists the items and calculates the order total)
 - Cart Context 
 
-After setting up the context, I wrapped the app with <CartProvider > at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
+After setting up the context, I wrapped the app with "<CartProvider >" at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
 
 <img width="589" height="1000" alt="Re-Lux_CartContext" src="https://github.com/user-attachments/assets/6164d128-b0e5-4833-8ee5-93f5941cf023" />
 
