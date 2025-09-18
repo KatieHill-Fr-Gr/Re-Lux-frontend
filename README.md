@@ -27,9 +27,9 @@ by Katie Hill & Tony Rodriguez
 
 ## About
 
-Re-Lux is a marketplace app where users can sell luxury goods, including designer clothing and high-end tech. It works in a similar way to apps like Vinted and Vestiaire Collective in that users can either make an offer on an item or add the item straight to their bag and proceed to checkout. The app also allows users to rate and review sellers, favorite items, and accept/reject offers on items they are selling. 
+Re-Lux is a marketplace app where users can sell luxury goods, including designer clothing and high-end tech. It works in a similar way to apps like Vinted and Vestiaire Collective in that users can either make an offer on an item or add the item straight to their bag and proceed to checkout. The app also allows users to rate and review sellers, favourite items, and accept/reject offers on items they are selling. 
 
-This was an ambitious joint project with my colleague Tony Rodriguez on the General Assembly Software Engineering Bootcamp. It involved building a dynamic resale platform in React with multiple interconnected features. Overall, our approach worked well and we were able to deliver a fully functional app with no bugs. However, the complexity of the app threw up a number of challenges during the build.
+This was an ambitious joint project with my colleague Tony Rodriguez on the General Assembly Software Engineering Bootcamp. It involved building a dynamic resale platform in React with a complex frontend architecture and multiple interconnected features. Overall, our approach worked well and we were able to deliver a fully functional app with no bugs. However, we faced a number of challenges during the build due to the complexity of the app.
 
 You can view the live app here: https://re-lux-marketplace.netlify.app/
 
@@ -182,16 +182,17 @@ The `<CardElement>` options and billing details have been customised, while succ
 
 
 
-#### 3) Stripe integration
+#### 3) Stripe Checkout vs Elements
 
-I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to use Stripe Elements instead so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>', and wrapping the checkout form inside <Elements stripe={stripePromise}> on the checkout page:
+I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>', and wrapping the checkout form inside <Elements stripe={stripePromise}> on the checkout page:
 
 <img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
 
 
 ## Key Learnings
 
-Building a dynamic resale platform made full use of React’s capabilities (reusable components, state management, packages etc.) and allowed me to gain a thorough understanding of React frontend development.
+Building such an interactive and interconnected frontend helped me gain a thorough understanding of React's capabilitiies (state management, hot reloading, and component-based architecture,  etc.). It was a great opportunity to use different packages, too. 
+
 
 ## Bugs
 
