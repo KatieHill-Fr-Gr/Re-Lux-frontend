@@ -47,7 +47,7 @@ Our brief was to build a MongoDB/Express/React/Node.js application with full CRU
 - No secret keys held on the frontend
   
 
-## Getting started
+## Installation
 
 
 For the frontend, clone this repository and install the following packages: 
@@ -83,6 +83,7 @@ For HTTP requests:
 ```bash
 npm install axios
 ```
+
 
 ## Planning 
 
@@ -146,7 +147,7 @@ I developed individual components for the cart and a context wrapper for state m
 - Cart summary (lists the items and calculates the order total)
 - Cart Context 
 
-After setting up the context, I wrapped the app with "<CartProvider >" at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
+After setting up the context, I wrapped the app with `<CartProvider>` at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
 
 <img width="589" height="1000" alt="Re-Lux_CartContext" src="https://github.com/user-attachments/assets/6164d128-b0e5-4833-8ee5-93f5941cf023" />
 
@@ -160,17 +161,15 @@ I developed form and page checkout components and integrated Stripe for the paym
 - Custom error messages
 - Order confirmation 
 
-I decided against calling the API using Axios in a separate /services file because I wanted to keep all the logic for the payment gateway centralised inside the checkout form:
+I decided against calling the API using Axios in a separate /services file because I wanted to keep all the logic for the payment gateway contained within the checkout form:
 
 <img width="613" height="717" alt="Re-Lux_checkout" src="https://github.com/user-attachments/assets/3ad2c821-0cdb-44e2-8b08-2bc6cdd3861f" />
 
 This component sends the cart data to the /purchase-intent backend route via fetch (please see <https://github.com/KatieHill-Fr-Gr/Re-Lux-backend> for details), passing the billing information and order total to the payment gateway (the total is calculated on both the frontend and backend for safety).
 
-The <CardElement > options and billing details have been customised, while success and error messages provide feedback to the user:
+The `<CardElement>` options and billing details have been customised, while success and error messages provide feedback to the user:
 
 <img width="643" height="965" alt="Re-Lux_checkout_cardelement_billing" src="https://github.com/user-attachments/assets/fbff00d1-68bc-4666-9ca2-322472afd208" />
-
-<img width="618" height="679" alt="Re-Lux_checkout_submit" src="https://github.com/user-attachments/assets/0b9a8138-7306-469d-8928-d11c2881ea36" />
 
 ### Challenges
 
@@ -181,8 +180,16 @@ The <CardElement > options and billing details have been customised, while succe
 
 This project made full use of React’s capabilities (reusable components, state management, packages etc.) and allowed me to gain a thorough understanding of React frontend development.
 
+## Bugs
+
+The favourite button on the individual item page can be toggled on and off (adding/removing it on the user's profile page). However, it does not remain on or off when the user revisits the individual item page due to the statement management. This fix is currently in progress.
 
 ## Future Improvements
+
+- Search & filter functionality
+- Public seller profile (profiles are currently only visible to the user)
+- More sophisticated payment gateway (migration from the legacy `<CardElement>` to the newer `<PaymentElement>' UI component)
+- More consistent and user-friendly notifications (using the React-Toastify package)
 
 
 
