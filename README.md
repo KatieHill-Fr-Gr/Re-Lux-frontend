@@ -136,7 +136,8 @@ Once the basic CRUD operations were in place, I began working on additional feat
 
 I created a reusable image upload component to allow users to add multiple photos (stored on Cloudinary):
 
-<img width="647" height="986" alt="Re-Lux_imageupload" src="https://github.com/user-attachments/assets/189404c5-9c85-4a02-a7d4-3e6b5f4584f3" />
+<img width="642" height="735" alt="Re-Lux-ImageUpload" src="https://github.com/user-attachments/assets/85d6cabb-ebcd-4bf9-8dd9-93afab37deb3" />
+
 
 #### 4) Cart
 
@@ -173,22 +174,34 @@ The `<CardElement>` options and billing details have been customised, while succ
 
 ### Challenges
 
+#### 1) Item types
 
+
+
+#### 2) Image upload (state management)
+
+
+
+#### 3) Stripe integration
+
+I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to use Stripe Elements instead so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>', and wrapping the checkout form inside <Elements stripe={stripePromise}> on the checkout page:
+
+<img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
 
 
 ## Key Learnings
 
-This project made full use of React’s capabilities (reusable components, state management, packages etc.) and allowed me to gain a thorough understanding of React frontend development.
+Building a dynamic resale platform made full use of React’s capabilities (reusable components, state management, packages etc.) and allowed me to gain a thorough understanding of React frontend development.
 
 ## Bugs
 
-The favourite button on the individual item page can be toggled on and off (adding/removing it on the user's profile page). However, it does not remain on or off when the user revisits the individual item page due to the statement management. This fix is currently in progress.
+There are currently no known bugs and the app is working as expected.
 
 ## Future Improvements
 
 - Search & filter functionality
 - Public seller profile (profiles are currently only visible to the user)
-- More sophisticated payment gateway (migration from the legacy `<CardElement>` to the newer `<PaymentElement>' UI component)
+- More sophisticated payment gateway (migration from `<CardElement>` to `<PaymentElement>' to offer more payment options)
 - More consistent and user-friendly notifications (using the React-Toastify package)
 
 
