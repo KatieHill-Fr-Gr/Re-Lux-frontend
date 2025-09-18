@@ -162,34 +162,40 @@ I developed form and page checkout components and integrated Stripe for the paym
 - Custom error messages
 - Order confirmation 
 
-I decided against calling the API using Axios in a separate /services file because I wanted to keep all the logic for the payment gateway contained within the checkout form:
+When integrating Stripe, I decided against calling the API using Axios in a separate /services file because I wanted to keep all the logic for the payment gateway contained within the checkout form:
 
 <img width="613" height="717" alt="Re-Lux_checkout" src="https://github.com/user-attachments/assets/3ad2c821-0cdb-44e2-8b08-2bc6cdd3861f" />
 
-This component sends the cart data to the /purchase-intent backend route via fetch (please see <https://github.com/KatieHill-Fr-Gr/Re-Lux-backend> for details), passing the billing information and order total to the payment gateway (the total is calculated on both the frontend and backend for safety).
+This component sends the cart data to the /purchase-intent backend route via fetch, passing the billing information and order total to the payment gateway (the total is calculated on both the frontend and backend for safety).
 
 The `<CardElement>` options and billing details have been customised, while success and error messages provide feedback to the user:
 
 <img width="643" height="965" alt="Re-Lux_checkout_cardelement_billing" src="https://github.com/user-attachments/assets/fbff00d1-68bc-4666-9ca2-322472afd208" />
 
+
 ### Challenges
 
-#### 1) Item types
-
-When developing the create new item component, I needed to fetch the item types from the backend in order to display the items on the category pages and for future search and filter functionalities. I did this by hardcoding the item types on the backend and adding an Axios call to this endpoint in /services. I then filtered the array of item types and created the dropdown in the form.
 
 
-#### 2) Image upload (state management)
+
+#### 1) Image upload (state management)
 
 There were issues with the image upload component / state management. 
 
 
 
-#### 3) Stripe Checkout vs Elements
+#### 2) Stripe Checkout vs Elements
 
 I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>`, and wrapping the checkout form inside `<Elements stripe={stripePromise}>` on the checkout page:
 
 <img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
+
+
+#### 3) User Authentication
+
+Although the backend configuration prevented guest users from performing CRUD operations, it was necessary to manage this on the frontend to ensure a seamless user experience. I implemented protected routes to prevent guest users from accessing pages that were only available to logged users:
+
+<img width="650" height="233" alt="Re-Lux_protectedroutes" src="https://github.com/user-attachments/assets/a57fad03-b8f4-4c0b-a9fa-655369cf117f" />
 
 
 ## Wins
@@ -197,13 +203,18 @@ I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then 
 - Responsive, mobile-first UI/UX design suitable for luxury e-commerce.
 - Clean and maintainable Stripe integration.
 - Reusable image upload component that supports multiple file uploads.
-- Successful collaboration with another developer using Git for version control (we kept merge conflicts to a minimum through branch management and communication via Slack while working simultaneously on separate components).
-
 
 ## Key Learnings
 
-Building such an interactive and interconnected frontend helped me gain a thorough understanding of React's capabilitiies (state management, hot reloading, and component-based architecture,  etc.). It was a great opportunity to use different packages, too. 
+Building a highly interactive marketplace app helped me gain a thorough understanding of React's capabilitiies: 
 
+- Modular component-based architecture (and the importance of separating concerns)
+- User-centric design (deciding how to implement the core layout, navigation, and checkout flow)
+- Integration of third-party services (Stripe, Cloudinary)
+- State management (passing props in the image reload component)
+- User authentication using local storage & creating protected routes
+
+I also gained valuable experience of working with another developer using Git for version control. We kept merge conflicts to a minimum through branch management and communication via Slack while working simultaneously on separate components. I really enjoyed working with Tony and I think we were both proud of the end result!
 
 ## Bugs
 
