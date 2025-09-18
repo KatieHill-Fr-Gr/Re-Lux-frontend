@@ -176,7 +176,7 @@ The `<CardElement>` options and billing details have been customised, while succ
 
 #### 1) Item types
 
-When developing the create new item component, I needed to fetch the item types from the backend in order to display the items on the category pages and to lay the groundwork for future search and filter functionalities. I did this by hardcoding the item types on the backend and adding an Axios call to this endpoint in /services: I then filtered the array of item types and created the dropdown in the form.
+When developing the create new item component, I needed to fetch the item types from the backend in order to display the items on the category pages and for future search and filter functionalities. I did this by hardcoding the item types on the backend and adding an Axios call to this endpoint in /services. I then filtered the array of item types and created the dropdown in the form.
 
 
 #### 2) Image upload (state management)
@@ -191,19 +191,13 @@ I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then 
 
 <img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
 
-#### 4) CSS specificity
 
+## Wins
 
-### Wins
-
-1) Sleek UI/UX design in keeping with luxury ecommerce apps (+ mobile-responsive layout)
-
-2) Clean & effective Stripe integration
-
-3) Reusable image upload component that worked well for multiple uploads and can be reused for future projects
-
-4) Successfully collaborated with another developer using Git for version control. We managed to avoid conflicts by staying in constant communication via Slack and working simultaneously on separate components. 
-
+- Responsive, mobile-first UI/UX design suitable for luxury e-commerce.
+- Clean and maintainable Stripe integration.
+- Reusable image upload component that supports multiple file uploads.
+- Successful collaboration with another developer using Git for version control (we kept merge conflicts to a minimum through branch management and communication via Slack while working simultaneously on separate components).
 
 
 ## Key Learnings
