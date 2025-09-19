@@ -194,7 +194,7 @@ If the item has already been added, a user message will appear and the item will
 
 #### 3) Stripe Checkout vs Elements
 
-I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement> UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>`, and wrapping the checkout form inside `<Elements stripe={stripePromise}>` on the checkout page:
+I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement>` UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>`, and wrapping the checkout form inside `<Elements stripe={stripePromise}>` on the checkout page:
 
 <img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
 
