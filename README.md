@@ -41,7 +41,7 @@ Our brief was to build a MongoDB/Express/React/Node.js application with full CRU
 
 - Frontend built with React
 - JWT token-based authentication to sign up, sign in, and sign out users
-- Authorization implemented across frontend and backend to esnure guest users are not able to create, update, or delete data
+- Authorization implemented across frontend and backend to ensure guest users are not able to create, update, or delete data
 - At least two data entities in addition to the User model (one must have a relationship with the User model)
 - Full CRUD functionality
 - No secret keys held on the frontend
