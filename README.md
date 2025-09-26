@@ -55,20 +55,9 @@ For the frontend, clone this repository and install the following packages:
 
 ```bash
 npm install react
-```
-
-```bash
 npm install react-dom
-```
-
-```bash
 npm install react-router
-```
-```bash
 npm install react-router-dom
-```
-
-```bash
 npm install react-icons
 ```
 
