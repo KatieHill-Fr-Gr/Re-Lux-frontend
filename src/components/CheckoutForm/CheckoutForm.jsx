@@ -21,21 +21,21 @@ const CARD_ELEMENT_OPTIONS = {
   }
 }
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 
-const CheckoutForm = () => { // { clientSecret }
-  const stripe = useStripe();
-  const elements = useElements();
-  const { cart, setCart } = useCart(); // added
+const CheckoutForm = () => {
+  const stripe = useStripe()
+  const elements = useElements()
+  const { cart, setCart } = useCart()
 
   // State
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
   const [cardComplete, setCardComplete] = useState(false)
-   const [clientSecret, setClientSecret] = useState(''); // added
-  const [paymentIntentId, setPaymentIntentId] = useState(''); // added
+  const [clientSecret, setClientSecret] = useState('')
+  const [paymentIntentId, setPaymentIntentId] = useState('')
 
   const [billingDetails, setBillingDetails] = useState({
     name: '',
@@ -53,50 +53,46 @@ const CheckoutForm = () => { // { clientSecret }
 
   // Functions
 
-  // Calculate total (matching your CartSummary logic)
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.price, 0);
   };
 
-  // Create payment intent when component mounts or cart changes
   useEffect(() => {
     if (cart.length === 0) return;
 
     const createPaymentIntent = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
         const response = await fetch(`${BASE_URL}/purchase-intent`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: Math.round(calculateTotal() * 100), // Convert to cents
+            amount: Math.round(calculateTotal() * 100),
             cartItems: cart,
             currency: 'eur',
           }),
         });
 
-
-
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error('Backend error:', errorData);
-          throw new Error(errorData.error || 'Failed to create payment intent');
+          const errorData = await response.json()
+          console.error('Backend error:', errorData)
+          throw new Error(errorData.error || 'Failed to create payment intent')
         }
 
-        const data = await response.json();
-        setClientSecret(data.clientSecret);
-        setPaymentIntentId(data.paymentIntentId);
+        const data = await response.json()
+        setClientSecret(data.clientSecret)
+        setPaymentIntentId(data.paymentIntentId)
       } catch (err) {
-        setError('Failed to initialize payment. Please try again.');
-        console.error('Payment intent creation failed:', err);
+        setError('Failed to initialize payment. Please try again.')
+        console.error('Payment intent creation failed:', err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     };
 
-    createPaymentIntent();
+    createPaymentIntent()
   }, [cart]);
 
 
@@ -122,29 +118,28 @@ const CheckoutForm = () => { // { clientSecret }
       if (error) {
         setError(error.message);
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        setSuccess(true);
-        setCart([]); // clears cart on successful payment
+        setSuccess(true)
+        setCart([])
       } else if (paymentIntent && paymentIntent.status === 'requires_payment_method') {
-        setError('Your payment was declined. Please try a different card.');
+        setError('Your payment was declined. Please try a different card.')
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
-      console.error(err);
+      setError('Something went wrong. Please try again.')
+      console.error(err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
   const handleCardChange = (event) => {
-    setCardComplete(event.complete);
+    setCardComplete(event.complete)
     if (event.error) {
-      setError(event.error.message);
+      setError(event.error.message)
     } else {
-      setError(null);
+      setError(null)
     }
   };
 
-    // Show empty cart message
   if (cart.length === 0 && !success) {
     return (
       <div className="empty-cart-message">

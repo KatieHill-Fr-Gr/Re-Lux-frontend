@@ -21,7 +21,7 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
         try {
             const files = Array.from(e.target.files);
 
-            // Using Promise.all to upload all the files
+            // Uses Promise.all to upload all the files
             const responses = await Promise.all(files.map(file => uploadImage(file))
             )
 

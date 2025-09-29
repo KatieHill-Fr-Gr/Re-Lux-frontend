@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { getUser } from '../utils/auth'
 import { UserContext } from './UserContext'
 
 const CartContext = createContext()

@@ -1,7 +1,5 @@
 import './CheckoutPage.css'
 import CheckoutForm from '../CheckoutForm/CheckoutForm'
-
-import { useState, useEffect } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
