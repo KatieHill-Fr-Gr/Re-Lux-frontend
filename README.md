@@ -222,7 +222,7 @@ There are currently no known bugs and the app is working as expected.
 - Enhanced UX with drag & drop functionality
 - Search & filter functionality
 - Public seller profile (profiles are currently only visible to the user)
-- More sophisticated payment gateway (migration from `<CardElement>` to `<PaymentElement>' to offer more payment options)
+- More sophisticated payment gateway (migration from `<CardElement>` to `<PaymentElement>` to offer more payment options)
 - More consistent user feedback (using the React-Toastify package)
 
 
