@@ -1,7 +1,7 @@
 # Re-Lux - A marketplace app with a sleek UI/UX design
 by Katie Hill & Tony Rodriguez
 
-![Re-Lux Homepage](src/assets/deployed.png)
+<img width="1428" height="1344" alt="Re-Lux_deployedhomepage" src="https://github.com/user-attachments/assets/fad12ecf-7a24-4994-bd66-3dc8676213aa" />
 
 *Screenshot of dynamic homepage displaying the latest listings*
 
