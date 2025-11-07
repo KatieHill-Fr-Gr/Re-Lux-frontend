@@ -215,7 +215,59 @@ I developed individual components for the cart and a context wrapper for state m
 
 After setting up the context, I wrapped the app with `<CartProvider>` at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
 
-<img width="589" height="1000" alt="Re-Lux_CartContext" src="https://github.com/user-attachments/assets/6164d128-b0e5-4833-8ee5-93f5941cf023" />
+```
+const CartContext = createContext()
+
+const CartProvider = ({ children }) => {
+
+    const { user } = useContext(UserContext)
+
+    const [cart, setCart] = useState(() => {
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+     useEffect(() => {
+        setCart([])
+    }, [user])
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+
+    const addItem = (item) => {
+        setCart(currentCart => {
+            const existingItem = currentCart.find(cartItem => cartItem.id === item.id)
+
+            if (existingItem) {
+                return currentCart
+            } else {
+                return [...currentCart, item]
+            }
+        })
+    }
+
+    const removeItem = (itemId) => {
+        setCart(currentCart => currentCart.filter(item => item.id !== itemId))
+    }
+
+    return (
+        <CartContext.Provider value={{ cart, setCart, addItem, removeItem }}>
+            {children}
+        </CartContext.Provider>
+    )
+}
+```
+
+```
+const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error('useCart must be used within a CartProvider');
+    }
+    return context;
+};
+```
 
 #### 5) Checkout & Payment Gateway
 
@@ -229,14 +281,78 @@ I developed form and page checkout components and integrated Stripe for the paym
 
 When integrating Stripe, I decided against calling the API using Axios in a separate /services file because I wanted to keep all the logic for the payment gateway contained within the checkout form:
 
-<img width="613" height="717" alt="Re-Lux_checkout" src="https://github.com/user-attachments/assets/3ad2c821-0cdb-44e2-8b08-2bc6cdd3861f" />
+```
+const createPaymentIntent = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch(`${BASE_URL}/purchase-intent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: Math.round(calculateTotal() * 100),
+            cartItems: cart,
+            currency: 'eur',
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          console.error('Backend error:', errorData)
+          throw new Error(errorData.error || 'Failed to create payment intent')
+        }
+
+        const data = await response.json()
+        setClientSecret(data.clientSecret)
+        setPaymentIntentId(data.paymentIntentId)
+      } catch (err) {
+        setError('Failed to initialize payment. Please try again.')
+        console.error('Payment intent creation failed:', err)
+      } finally {
+        setLoading(false)
+      }
+    };
+
+    createPaymentIntent()
+  }, [cart]);
+```
 
 This component sends the cart data to the /purchase-intent backend route via fetch, passing the billing information and order total to the payment gateway (the total is calculated on both the frontend and backend for safety).
 
 The `<CardElement>` options and billing details have been customised, while success and error messages provide feedback to the user:
 
-<img width="643" height="965" alt="Re-Lux_checkout_cardelement_billing" src="https://github.com/user-attachments/assets/fbff00d1-68bc-4666-9ca2-322472afd208" />
+```
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      color: '#424770',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#9e2146',
+      iconColor: '#9e2146'
+    }
+  }
+}
+```
 
+```
+  if (success) {
+    return (
+      <div className="success-message">
+        <h2>Payment Successful!</h2>
+        <p>Thank you for your purchase.</p>
+        <p>Payment ID: {paymentIntentId}</p>
+      </div>
+    );
+  }
+```
 
 ### Challenges
 
@@ -245,14 +361,22 @@ The `<CardElement>` options and billing details have been customised, while succ
 
 I refactored the image upload component to avoid losing the existing images when updating the item listing. Instead, formData is updated by appending the new image URLs to the existing image array:
 
-<img width="637" height="712" alt="Re-Lux_imgupload" src="https://github.com/user-attachments/assets/89d8907a-eaa5-4138-a21a-81e467ae5b7a" />
-
+```
+      setFormData(formData => {
+                return {
+                    ...formData,
+                    [fieldName]: [...formData.images, ...justURLs]
+                }
+            })
+```
 
 #### 2) Already added to cart
 
 Since this is a resale platform and it is not possible to buy more than one item, it was necessary to prevent the user from adding the same item to their cart more than once. I added this line of code to the individual item page to check if the item had already been added (using the cart state): 
 
-<img width="634" height="89" alt="Re-Lux_itemalreadyincart" src="https://github.com/user-attachments/assets/81e495d2-7d72-45d9-ba78-a3aebd903f15" />
+```
+  const isInCart = item ? cart.some(cartItem => cartItem.id === item._id) : false
+```
 
 If the item has already been added, a user message will appear and the item will not be added again.
 
@@ -261,15 +385,62 @@ If the item has already been added, a user message will appear and the item will
 
 I initially used Stripe's pre-built checkout page `<CheckoutProvider>` but then decided to switch to Stripe Elements so that I could customise the checkout flow and keep it consistent with the rest of the design. This required more work so I opted for the simpler `<CardElement>` rather than the newer `<PaymentElement>` UI component. I refactored my code by removing `<CheckoutProvider>`, replacing it with my custom `<CartProvider>`, and wrapping the checkout form inside `<Elements stripe={stripePromise}>` on the checkout page:
 
-<img width="657" height="503" alt="Re-Lux_checkoutpage" src="https://github.com/user-attachments/assets/3aa63dcf-61c8-42fd-b075-dc64ede64266" />
+```
+const CartContext = createContext()
 
+const CartProvider = ({ children }) => {
+
+    const { user } = useContext(UserContext)
+
+    const [cart, setCart] = useState(() => {
+        const savedCart = localStorage.getItem('cart');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+
+     useEffect(() => {
+        setCart([])
+    }, [user])
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+
+    const addItem = (item) => {
+        setCart(currentCart => {
+            const existingItem = currentCart.find(cartItem => cartItem.id === item.id)
+
+            if (existingItem) {
+                return currentCart
+            } else {
+                return [...currentCart, item]
+            }
+        })
+    }
+
+    const removeItem = (itemId) => {
+        setCart(currentCart => currentCart.filter(item => item.id !== itemId))
+    }
+
+    return (
+        <CartContext.Provider value={{ cart, setCart, addItem, removeItem }}>
+            {children}
+        </CartContext.Provider>
+    )
+}
+```
 
 #### 4) User Authentication
 
 Although the backend configuration prevents guest users from performing CRUD operations, it was necessary to manage this on the frontend to ensure a seamless user experience. I implemented protected routes to redirect guest users away from pages that were only available to logged-in users:
 
-<img width="650" height="233" alt="Re-Lux_protectedroutes" src="https://github.com/user-attachments/assets/a57fad03-b8f4-4c0b-a9fa-655369cf117f" />
-
+```
+        <Route path="/items/new" element={user ? <ItemCreatePage /> : <Navigate to="/sign-in" replace />} />
+        <Route path="/items/:itemId/edit" element={user ? <ItemUpdatePage /> : <Navigate to="/sign-in" replace />} />
+        <Route path="/items/:itemId" element={<ItemShow />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/cart" element={user ? <Cart /> : <Navigate to="/sign-in" replace />} />
+        <Route path="/checkout" element={user ? <CheckoutPage /> : <Navigate to="/sign-in" replace />} />
+```
 
 ## Wins
 
