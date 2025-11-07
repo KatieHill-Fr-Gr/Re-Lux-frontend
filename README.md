@@ -117,7 +117,28 @@ I implemented full CRUD operations for the items for sale, with separate form an
 
 For ease, we used Axios (rather than native fetch) to consume the API:
 
-![Re-Lux_axioscalls](https://github.com/user-attachments/assets/d4e99bb8-d64f-4c22-b9e4-eb67198ba44e)
+```
+export const itemShow = (itemId) => {
+    return axios.get(`${BASE_URL}/${itemId}`)
+}
+
+export const itemCreate = (formData) => {
+    return axios.post(BASE_URL, formData, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+}
+
+export const itemUpdate = (itemId, formData) => {
+    const token = getToken()
+    return axios.put(`${BASE_URL}/${itemId}`, formData, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+```
 
 Once the basic CRUD operations were in place, I began working on additional features.
 
@@ -125,8 +146,63 @@ Once the basic CRUD operations were in place, I began working on additional feat
 
 I created a reusable image upload component to allow users to add multiple photos (stored on Cloudinary):
 
-<img width="642" height="735" alt="Re-Lux-ImageUpload" src="https://github.com/user-attachments/assets/85d6cabb-ebcd-4bf9-8dd9-93afab37deb3" />
+```
+const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFormData, imageURLs, setUploading }) => {
+    const [error, setError] = useState('')
 
+    const handleUpload = async (e) => {
+
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        setUploading(true)
+        setError('')
+
+        try {
+            const files = Array.from(e.target.files);
+            const responses = await Promise.all(files.map(file => uploadImage(file))
+            )
+            const justURLs = responses.map(response => response.data.secure_url)
+
+            setFormData(formData => {
+                return {
+                    ...formData,
+                    [fieldName]: [...formData.images, ...justURLs]
+                }
+            })
+            e.target.value = ''
+
+        } catch (error) {
+            setError('Upload failed. Please try again.')
+        } finally {
+            setUploading(false)
+        }
+    }
+
+    return (
+        <>
+        {imageURLs.length > 0 && (
+            <div className="image-preview-container">
+                {imageURLs.map((url, idx) => (
+                    <img 
+                        key={idx} 
+                        className='uploaded-image' 
+                        src={url} 
+                        alt={`Preview ${idx + 1}`} 
+                    />
+                ))}
+            </div>
+        )}
+
+            {error && <p className='error-message'>{error}</p>}
+
+            <label htmlFor={fieldName}>{labelText}</label>
+            <input type="file" name={fieldName} id={fieldName} onChange={handleUpload} multiple />
+
+        </>
+    )
+}
+```
 
 #### 4) Cart
 
