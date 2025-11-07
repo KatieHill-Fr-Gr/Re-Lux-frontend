@@ -20,23 +20,16 @@ const ImageUpload = ({ labelText = 'Upload a photo', fieldName = 'image', setFor
 
         try {
             const files = Array.from(e.target.files);
-
-            // Uses Promise.all to upload all the files
             const responses = await Promise.all(files.map(file => uploadImage(file))
             )
-
-            // This gets just the URLs from the response
             const justURLs = responses.map(response => response.data.secure_url)
 
-            // 'prev' gives you access to the previous state. This means 'if there is a previous state, use this or if there isn't, use an empty array. Then append new URLs to the "justURls" array.
             setFormData(formData => {
                 return {
                     ...formData,
                     [fieldName]: [...formData.images, ...justURLs]
                 }
             })
-
-            // Clears the file input afterwards
             e.target.value = ''
 
         } catch (error) {
