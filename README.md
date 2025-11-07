@@ -216,47 +216,15 @@ I developed individual components for the cart and a context wrapper for state m
 After setting up the context, I wrapped the app with `<CartProvider>` at root level. The custom useCart hook gives the components access to the cart state and allows users to add or delete items before checkout:
 
 ```
-const CartContext = createContext()
-
-const CartProvider = ({ children }) => {
-
-    const { user } = useContext(UserContext)
-
-    const [cart, setCart] = useState(() => {
-        const savedCart = localStorage.getItem('cart');
-        return savedCart ? JSON.parse(savedCart) : [];
-    });
-
-     useEffect(() => {
-        setCart([])
-    }, [user])
-
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
-
-    const addItem = (item) => {
-        setCart(currentCart => {
-            const existingItem = currentCart.find(cartItem => cartItem.id === item.id)
-
-            if (existingItem) {
-                return currentCart
-            } else {
-                return [...currentCart, item]
-            }
-        })
-    }
-
-    const removeItem = (itemId) => {
-        setCart(currentCart => currentCart.filter(item => item.id !== itemId))
-    }
-
-    return (
-        <CartContext.Provider value={{ cart, setCart, addItem, removeItem }}>
-            {children}
-        </CartContext.Provider>
-    )
-}
+  <StrictMode>
+    <BrowserRouter>
+      <UserProvider>
+        <CheckoutProvider stripe={ stripePromise }>
+        <App />
+        </CheckoutProvider>
+      </UserProvider>
+    </BrowserRouter>
+  </StrictMode>
 ```
 
 ```
